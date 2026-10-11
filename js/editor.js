@@ -49,7 +49,7 @@
   function renderSection(lesson,section,si){
     const card=document.createElement('section');card.className='section-card panel';card.dataset.id=section.id;
     const head=document.createElement('div');head.className='section-head';
-    head.innerHTML=`<span class="section-handle" title="섹션">▦</span><div class="field"><label>섹션 이름</label><input class="section-title" type="text"></div><div class="field columns-field"><label>카드 배열</label><select class="section-columns"><option value="0">자동</option><option value="3">3열</option></select></div><div class="section-tools"><button class="mini section-up" type="button" title="위로">↑</button><button class="mini section-down" type="button" title="아래로">↓</button><button class="mini delete section-delete" type="button" title="삭제">×</button></div>`;
+    head.innerHTML=`<span class="section-handle" title="섹션">▦</span><div class="field"><label>섹션 이름</label><input class="section-title" type="text"></div><div class="field columns-field"><label>카드 배열</label><select class="section-columns"><option value="0">자동 (3열)</option><option value="2">2열 (문장)</option><option value="3">3열 (단어)</option></select></div><div class="section-tools"><button class="mini section-up" type="button" title="위로">↑</button><button class="mini section-down" type="button" title="아래로">↓</button><button class="mini delete section-delete" type="button" title="삭제">×</button></div>`;
     head.querySelector('.section-title').value=section.title;head.querySelector('.section-columns').value=String(section.columns||0);
     head.querySelector('.section-title').oninput=e=>{section.title=e.target.value;changed()};head.querySelector('.section-columns').onchange=e=>{section.columns=Number(e.target.value);changed()};
     head.querySelector('.section-up').onclick=()=>move(lesson.sections,si,-1);head.querySelector('.section-down').onclick=()=>move(lesson.sections,si,1);
@@ -81,7 +81,7 @@
   function confirmDelete(message,onConfirm){const d=$('#confirm-dialog');$('#confirm-message').textContent=message;d.showModal();d.onclose=()=>{if(d.returnValue==='confirm')onConfirm()}}
 
   function lessonJs(l){
-    const sections=l.sections.map(s=>`    {\n      title: ${escapeJs(s.title)},${s.columns===3?'\n      columns: 3,':''}\n      items: [\n${s.items.map(i=>`        { text: ${escapeJs(i.text)}, audio: ${i.audio?escapeJs(i.audio):'null'} },`).join('\n')}\n      ],\n    },`).join('\n');
+    const sections=l.sections.map(s=>`    {\n      title: ${escapeJs(s.title)},${s.columns===2||s.columns===3?`\n      columns: ${s.columns},`:''}\n      items: [\n${s.items.map(i=>`        { text: ${escapeJs(i.text)}, audio: ${i.audio?escapeJs(i.audio):'null'} },`).join('\n')}\n      ],\n    },`).join('\n');
     return `// 레슨 편집기에서 생성한 파일입니다.\nwindow.LESSONS.push({\n  lesson: ${l.lesson},\n  title: ${escapeJs(l.title)},\n  sections: [\n${sections}\n  ],\n});\n`;
   }
 

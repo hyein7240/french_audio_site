@@ -83,6 +83,7 @@ window.LESSONS.push({
     },
     {
       title: "문장",
+      columns: 2,   // 데스크탑에서 문장 카드를 한 줄에 2개씩 표시
       items: [
         { text: "Elles sont petites.", audio: "59_elles_sont_petites.mp3" },
         { text: "Ils sont minces.", audio: "60_ils_sont_minces.mp3" },

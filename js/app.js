@@ -82,7 +82,7 @@ function renderLesson(lesson){
     const el=document.createElement('section'); el.className='section';
     const h=document.createElement('h2'); h.textContent=sec.title||'';
     const small=document.createElement('small'); small.textContent=`${sec.items.length}개`; h.append(small);
-    const grid=document.createElement('div'); grid.className='grid'+(sec.columns===3?' cols-3':'');
+    const grid=document.createElement('div'); grid.className='grid'+(sec.columns===2?' cols-2':'');
     sec.items.forEach((it,index)=>grid.append(makeCard(lesson,it,index)));
     el.append(h,grid); $content.append(el);
   });
