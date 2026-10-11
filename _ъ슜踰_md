@@ -1,0 +1,35 @@
+# 프랑스어 발음 연습 사이트 — 사용법
+
+## 실행하기
+`index.html` 을 더블클릭하면 브라우저에서 바로 열립니다. (인터넷 연결 시 글꼴이 예쁘게 나옵니다)
+학생들에게 공유하려면 이 폴더 전체를 Netlify / GitHub Pages / 학교 서버 등에 올리면 됩니다.
+
+## 폴더 구조
+```
+french-audio-site/
+├─ index.html            ← 화면 (수정 불필요)
+├─ css/style.css         ← 디자인(색, 크기)
+├─ js/app.js             ← 기능 코드 (수정 불필요)
+├─ data/lessons/         ← ★ 차시별 텍스트 데이터
+│   ├─ lesson1.js … lesson6.js
+│   └─ _template.js      ← 새 차시용 복사본
+└─ audio/                ← ★ 차시별 음성 파일
+    ├─ lesson1/ … lesson6/   (lesson6 에 66개 mp3 연결 완료)
+```
+
+## 새 차시(예: 7차시) 추가 — 3단계
+① `audio/lesson7/` 폴더를 만들고 mp3 파일을 넣는다.
+② `data/lessons/_template.js` 를 복사해 이름을 `lesson7.js` 로 바꾸고, 안의 `lesson: 7`, `title: "7차시"`, 항목들을 고친다.
+③ `index.html` 을 열면(새로고침) **7차시 탭이 자동으로 생긴다.** 다른 파일은 고칠 필요가 없다.
+
+## 기존 차시에 음성 추가
+① mp3 를 `audio/lessonN/` 에 넣는다.
+② `data/lessons/lessonN.js` 의 알맞은 섹션 `items` 에 한 줄을 추가한다.
+`{ text: "bonjour", audio: "01_bonjour.mp3" },`
+
+## 알아둘 점
+- 차시 번호는 **끊기지 않게** 만드세요 (lesson7 → lesson8 → lesson9). 중간 번호가 없으면 그 뒤 차시는 나타나지 않습니다.
+- 섹션 이름·개수는 차시마다 자유롭게 정할 수 있습니다. `columns: 3` 을 넣으면 3개씩 한 줄로 보입니다.
+- mp3 파일이 없거나 이름이 틀리면 그 버튼만 "음성 준비 중"으로 회색 처리되고, 나머지는 정상 작동합니다.
+- 파일 이름은 영문·숫자·밑줄(_)만 쓰는 것을 권장합니다. (예: `l_etudiant.mp3`)
+- 음성-텍스트 매칭 근거는 `audio/lesson6/파일_목록.csv` 입니다.
