@@ -1,5 +1,5 @@
 :root{
-  --paper:#845d3e;--key:#dff5ed;--surface:#fffefa;--ink:#393027;--muted:var(--ink);--line:#393027;
+  --paper:#341f1a;--key:#dff5ed;--surface:#fffefa;--ink:#393027;--muted:var(--ink);--line:#393027;
   --navy:var(--ink);--shadow:0 7px 0 rgba(57,48,39,.10);--radius:22px;
 }
 *{box-sizing:border-box}

@@ -8,7 +8,7 @@ window.LESSONS.push({
   title: "6차시",
   sections: [
     {
-      title: "단어",
+      title: "정관사 예시 어휘",
       items: [
         { text: "l'homme", audio: "01_l_homme.mp3" },
         { text: "la femme", audio: "02_la_femme.mp3" },
@@ -58,7 +58,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "소유형용사 · 소유 표현",
+      title: "소유형용사 예시 어휘",
       columns: 3,   // 3개씩 한 줄 (mon / ma / mes …)
       items: [
         { text: "mon père", audio: "41_mon_pere.mp3" },
@@ -82,7 +82,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "문장",
+      title: "형용사 예시 문장",
       columns: 2,   // 데스크탑에서 문장 카드를 한 줄에 2개씩 표시
       items: [
         { text: "Elles sont petites.", audio: "59_elles_sont_petites.mp3" },
