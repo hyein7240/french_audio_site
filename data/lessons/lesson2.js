@@ -4,31 +4,61 @@ window.LESSONS.push({
   title: "2차시",
   sections: [
     {
-      title: "국가 관련 표현 : 한국 🇰🇷",
+      title: "한국 🇰🇷",
       items: [
         { text: "la Corée", audio: "01_la_Coree.mp3" },
         { text: "coréen", audio: "02_coreen.mp3" },
         { text: "coréenne", audio: "03_coreenne.mp3" },
         { text: "le coréen", audio: "04_le_coreen.mp3" },
+      ],
+    },
+    {
+      title: "프랑스 🇫🇷",
+      items: [
         { text: "la France", audio: "05_la_France.mp3" },
         { text: "français", audio: "06_francais.mp3" },
         { text: "française", audio: "07_francaise.mp3" },
         { text: "le français", audio: "08_le_francais.mp3" },
+      ],
+    },
+    {
+      title: "일본 🇯🇵",
+      items: [
         { text: "le Japon", audio: "09_le_Japon.mp3" },
         { text: "japonais", audio: "10_japonais.mp3" },
         { text: "japonaise", audio: "11_japonaise.mp3" },
         { text: "le japonais", audio: "12_le_japonais.mp3" },
+      ],
+    },
+    {
+      title: "미국 🇺🇸",
+      items: [
         { text: "les États-Unis", audio: "13_les_Etats_Unis.mp3" },
         { text: "américain", audio: "14_americain.mp3" },
         { text: "américaine", audio: "15_americaine.mp3" },
         { text: "l’anglais", audio: "16_l_anglais.mp3" },
+      ],
+    },
+    {
+      title: "벨기에 🇧🇪",
+      items: [
         { text: "la Belgique", audio: "17_la_Belgique.mp3" },
         { text: "belge", audio: "18_belge.mp3" },
         { text: "le néerlandais", audio: "19_le_neerlandais.mp3" },
+      ],
+    },
+    {
+      title: "독일 🇩🇪",
+      items: [
         { text: "l’Allemagne", audio: "20_l_Allemagne.mp3" },
         { text: "allemand", audio: "21_allemand.mp3" },
         { text: "allemande", audio: "22_allemande.mp3" },
         { text: "l’allemand", audio: "23_l_allemand.mp3" },
+      ],
+    },
+    {
+      title: "스페인 🇪🇸",
+      items: [
         { text: "l’Espagne", audio: "24_l_Espagne.mp3" },
         { text: "espagnol", audio: "25_espagnol.mp3" },
         { text: "espagnole", audio: "26_espagnole.mp3" },
