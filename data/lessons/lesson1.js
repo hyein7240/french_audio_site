@@ -2,21 +2,21 @@
 window.LESSONS.push({
   lesson: 1,
   title: "1차시",
-  audioDir: "audio/lesson1/",
   sections: [
     {
-      title: "음성 기호(accent)",
+      title: "음성 기호 (accent)",
       items: [
-        { text: "accent grave", audio: "002_accent_grave.mp3" },
-        { text: "accent circonflexe", audio: "003_accent_circonflexe.mp3" },
-        { text: "tréma", audio: "004_trema.mp3" },
-        { text: "cédille", audio: "005_cedille.mp3" },
-        { text: "trait d’union", audio: "006_trait_dunion.mp3" },
-        { text: "apostrophe", audio: "007_apostrophe.mp3" },
+        { text: "accent aigu (´)", audio: "accent_aigu.mp3" },
+        { text: "accent grave (`)", audio: "002_accent_grave.mp3" },
+        { text: "accent circonflexe (ˆ)", audio: "003_accent_circonflexe.mp3" },
+        { text: "tréma (¨)", audio: "004_trema.mp3" },
+        { text: "cédille (ç)", audio: "005_cedille.mp3" },
+        { text: "trait d’union (-)", audio: "006_trait_dunion.mp3" },
+        { text: "apostrophe (')", audio: "007_apostrophe.mp3" },
       ],
     },
     {
-      title: "인사말",
+      title: "기초 인사말",
       items: [
         { text: "bonjour", audio: "008_bonjour.mp3" },
         { text: "bonsoir", audio: "009_bonsoir.mp3" },
@@ -24,7 +24,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "알파벳별 단어(A-Z)",
+      title: "알파벳별 단어 (A-Z)",
       items: [
         { text: "l’ami", audio: "011_lami.mp3" },
         { text: "l’appartement", audio: "012_lappartement.mp3" },
