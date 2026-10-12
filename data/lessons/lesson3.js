@@ -6,7 +6,7 @@ window.LESSONS.push({
     {
       title: "숫자 (1–20)",
       items: [
-        { text: "un", audio: "01_un.mp3" },
+        { text: "un", audio: "pronunciation_fr_un.mp3" },
         { text: "deux", audio: "02_deux.mp3" },
         { text: "trois", audio: "03_trois.mp3" },
         { text: "quatre", audio: "04_quatre.mp3" },
