@@ -4,7 +4,7 @@ window.LESSONS.push({
   title: "3차시",
   sections: [
     {
-      title: "숫자 1–20",
+      title: "숫자 (1–20)",
       items: [
         { text: "un", audio: "01_un.mp3" },
         { text: "deux", audio: "02_deux.mp3" },
@@ -29,7 +29,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "나이 1–20세",
+      title: "나이 (1–20세)",
       items: [
         { text: "un an", audio: "21_un_an.mp3" },
         { text: "deux ans", audio: "22_deux_ans.mp3" },
@@ -51,14 +51,6 @@ window.LESSONS.push({
         { text: "dix-huit ans", audio: "38_dix-huit_ans.mp3" },
         { text: "dix-neuf ans", audio: "39_dix-neuf_ans.mp3" },
         { text: "vingt ans", audio: "40_vingt_ans.mp3" },
-      ],
-    },
-    {
-      title: "추가 듣기 자료",
-      columns: 2,
-      items: [
-        { text: "un 발음 연습", audio: "pronunciation_fr_un.mp3" },
-        { text: "전체 듣기 (0.8배속)", audio: "audio_complet_0.8x.mp3" },
       ],
     },
   ],
