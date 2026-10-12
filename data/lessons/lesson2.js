@@ -13,7 +13,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "프랑스 🇫🇷",
+      title: "국가 관련 표현 : 프랑스 🇫🇷",
       items: [
         { text: "la France", audio: "05_la_France.mp3" },
         { text: "français", audio: "06_francais.mp3" },
