@@ -22,7 +22,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "일본 🇯🇵",
+      title: "국가 관련 표현 : 일본 🇯🇵",
       items: [
         { text: "le Japon", audio: "09_le_Japon.mp3" },
         { text: "japonais", audio: "10_japonais.mp3" },
@@ -31,7 +31,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "미국 🇺🇸",
+      title: "국가 관련 표현 : 미국 🇺🇸",
       items: [
         { text: "les États-Unis", audio: "13_les_Etats_Unis.mp3" },
         { text: "américain", audio: "14_americain.mp3" },
@@ -40,7 +40,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "벨기에 🇧🇪",
+      title: "국가 관련 표현 : 벨기에 🇧🇪",
       items: [
         { text: "la Belgique", audio: "17_la_Belgique.mp3" },
         { text: "belge", audio: "18_belge.mp3" },
@@ -48,7 +48,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "독일 🇩🇪",
+      title: "국가 관련 표현 : 독일 🇩🇪",
       items: [
         { text: "l’Allemagne", audio: "20_l_Allemagne.mp3" },
         { text: "allemand", audio: "21_allemand.mp3" },
@@ -57,7 +57,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "스페인 🇪🇸",
+      title: "국가 관련 표현 : 스페인 🇪🇸",
       items: [
         { text: "l’Espagne", audio: "24_l_Espagne.mp3" },
         { text: "espagnol", audio: "25_espagnol.mp3" },
@@ -66,7 +66,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "동사 être",
+      title: "être 동사 (~이다)",
       items: [
         { text: "je suis", audio: "28_je_suis.mp3" },
         { text: "tu es", audio: "29_tu_es.mp3" },
@@ -80,7 +80,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "동사 parler",
+      title: "parler 동사 (말하다)",
       items: [
         { text: "je parle", audio: "37_je_parle.mp3" },
         { text: "tu parles", audio: "38_tu_parles.mp3" },
@@ -94,7 +94,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "동사 habiter",
+      title: "habiter 동사 (거주하다)",
       items: [
         { text: "j’habite", audio: "46_j_habite.mp3" },
         { text: "tu habites", audio: "47_tu_habites.mp3" },
@@ -108,7 +108,7 @@ window.LESSONS.push({
       ],
     },
     {
-      title: "동사 s’appeler",
+      title: "s’appeler 동사 (이름이 ~이다)",
       items: [
         { text: "je m’appelle", audio: "55_je_m_appelle.mp3" },
         { text: "tu t’appelles", audio: "56_tu_t_appelles.mp3" },
