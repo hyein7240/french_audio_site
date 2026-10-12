@@ -1,7 +1,65 @@
-// 3차시 — 아직 자료가 없습니다. 음성 파일을 audio/lesson3/ 에 넣고
-// 아래 sections 안에 항목을 추가하면 자동으로 나타납니다. (6차시 파일을 참고하세요)
+// 3차시 데이터  (음성 파일 위치: audio/lesson3/)
 window.LESSONS.push({
   lesson: 3,
   title: "3차시",
-  sections: [],
+  sections: [
+    {
+      title: "숫자 1–20",
+      items: [
+        { text: "un", audio: "01_un.mp3" },
+        { text: "deux", audio: "02_deux.mp3" },
+        { text: "trois", audio: "03_trois.mp3" },
+        { text: "quatre", audio: "04_quatre.mp3" },
+        { text: "cinq", audio: "05_cinq.mp3" },
+        { text: "six", audio: "06_six.mp3" },
+        { text: "sept", audio: "07_sept.mp3" },
+        { text: "huit", audio: "08_huit.mp3" },
+        { text: "neuf", audio: "09_neuf.mp3" },
+        { text: "dix", audio: "10_dix.mp3" },
+        { text: "onze", audio: "11_onze.mp3" },
+        { text: "douze", audio: "12_douze.mp3" },
+        { text: "treize", audio: "13_treize.mp3" },
+        { text: "quatorze", audio: "14_quatorze.mp3" },
+        { text: "quinze", audio: "15_quinze.mp3" },
+        { text: "seize", audio: "16_seize.mp3" },
+        { text: "dix-sept", audio: "17_dix-sept.mp3" },
+        { text: "dix-huit", audio: "18_dix-huit.mp3" },
+        { text: "dix-neuf", audio: "19_dix-neuf.mp3" },
+        { text: "vingt", audio: "20_vingt.mp3" },
+      ],
+    },
+    {
+      title: "나이 1–20세",
+      items: [
+        { text: "un an", audio: "21_un_an.mp3" },
+        { text: "deux ans", audio: "22_deux_ans.mp3" },
+        { text: "trois ans", audio: "23_trois_ans.mp3" },
+        { text: "quatre ans", audio: "24_quatre_ans.mp3" },
+        { text: "cinq ans", audio: "25_cinq_ans.mp3" },
+        { text: "six ans", audio: "26_six_ans.mp3" },
+        { text: "sept ans", audio: "27_sept_ans.mp3" },
+        { text: "huit ans", audio: "28_huit_ans.mp3" },
+        { text: "neuf ans", audio: "29_neuf_ans.mp3" },
+        { text: "dix ans", audio: "30_dix_ans.mp3" },
+        { text: "onze ans", audio: "31_onze_ans.mp3" },
+        { text: "douze ans", audio: "32_douze_ans.mp3" },
+        { text: "treize ans", audio: "33_treize_ans.mp3" },
+        { text: "quatorze ans", audio: "34_quatorze_ans.mp3" },
+        { text: "quinze ans", audio: "35_quinze_ans.mp3" },
+        { text: "seize ans", audio: "36_seize_ans.mp3" },
+        { text: "dix-sept ans", audio: "37_dix-sept_ans.mp3" },
+        { text: "dix-huit ans", audio: "38_dix-huit_ans.mp3" },
+        { text: "dix-neuf ans", audio: "39_dix-neuf_ans.mp3" },
+        { text: "vingt ans", audio: "40_vingt_ans.mp3" },
+      ],
+    },
+    {
+      title: "추가 듣기 자료",
+      columns: 2,
+      items: [
+        { text: "un 발음 연습", audio: "pronunciation_fr_un.mp3" },
+        { text: "전체 듣기 (0.8배속)", audio: "audio_complet_0.8x.mp3" },
+      ],
+    },
+  ],
 });
