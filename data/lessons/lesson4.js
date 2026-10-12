@@ -2,21 +2,20 @@
 window.LESSONS.push({
   lesson: 4,
   title: "4차시",
-  audioDir: "audio/lesson4/",
   sections: [
     {
-      title: "20–29",
+      title: "숫자 (20–29)",
       items: [
-        { text: "vingt", audio: "001_vingt.mp3" },
-        { text: "vingt-et-un", audio: "002_vingt-et-n.mp3" },
-        { text: "vingt-deux", audio: "003_vingt-dex.mp3" },
-        { text: "vingt-trois", audio: "004_vingt-trois.mp3" },
-        { text: "vingt-quatre", audio: "005_vingt-qatre.mp3" },
-        { text: "vingt-cinq", audio: "006_vingt-cinq.mp3" },
-        { text: "vingt-six", audio: "007_vingt-six.mp3" },
-        { text: "vingt-sept", audio: "008_vingt-sept.mp3" },
-        { text: "vingt-huit", audio: "009_vingt-hit.mp3" },
-        { text: "vingt-neuf", audio: "010_vingt-ne.mp3" },
+        { text: "20", audio: "001_vingt.mp3" },
+        { text: "21", audio: "002_vingt-et-n.mp3" },
+        { text: "22", audio: "003_vingt-dex.mp3" },
+        { text: "23", audio: "004_vingt-trois.mp3" },
+        { text: "24", audio: "005_vingt-qatre.mp3" },
+        { text: "25", audio: "006_vingt-cinq.mp3" },
+        { text: "26", audio: "007_vingt-six.mp3" },
+        { text: "27", audio: "008_vingt-sept.mp3" },
+        { text: "28", audio: "009_vingt-hit.mp3" },
+        { text: "29", audio: "010_vingt-ne.mp3" },
       ],
     },
     {
