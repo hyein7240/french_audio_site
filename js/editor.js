@@ -136,8 +136,8 @@
   /* ---------- GitHub 원클릭 저장 ---------- */
   const GH_CONFIG_KEY='frenchLessonGithubConfig',GH_LOCAL_TOKEN='frenchLessonGithubToken',GH_SESSION_TOKEN='frenchLessonGithubSessionToken';
   function githubConfig(){
-    try{return {...{owner:'libok03',repo:'test',branch:'main',path:''},...JSON.parse(localStorage.getItem(GH_CONFIG_KEY)||'{}')}}
-    catch{return {owner:'libok03',repo:'test',branch:'main',path:''}}
+    try{return {...{owner:'hyein7240',repo:'french_audio_site',branch:'main',path:''},...JSON.parse(localStorage.getItem(GH_CONFIG_KEY)||'{}')}}
+    catch{return {owner:'hyein7240',repo:'french_audio_site',branch:'main',path:''}}
   }
   function githubToken(){return sessionStorage.getItem(GH_SESSION_TOKEN)||localStorage.getItem(GH_LOCAL_TOKEN)||''}
   function cleanRepoPath(path){return String(path||'').trim().replace(/^\/+|\/+$/g,'').replace(/\/{2,}/g,'/')}
@@ -151,25 +151,50 @@
     const data=response.status===204?{}:await response.json().catch(()=>({}));
     if(!response.ok){const error=new Error(data.message||`GitHub 오류 (${response.status})`);error.status=response.status;throw error}return data;
   }
+  async function githubGraphql(query,variables,token=githubToken()){
+    const response=await fetch('https://api.github.com/graphql',{method:'POST',headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({query,variables})});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||data.errors?.length){const error=new Error(data.errors?.map(e=>e.message).join('\n')||data.message||`GitHub 오류 (${response.status})`);error.status=response.status;throw error}return data.data;
+  }
   $('#github-form').onsubmit=async e=>{
     e.preventDefault();const result=$('#github-test-result');result.textContent='연결을 확인하는 중…';result.className='test-result';
     const config={owner:$('#github-owner').value.trim(),repo:$('#github-repo').value.trim(),branch:$('#github-branch').value.trim()||'main',path:cleanRepoPath($('#github-path').value)};const token=$('#github-token').value.trim();
     try{await githubApi(`/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}`,{},token);localStorage.setItem(GH_CONFIG_KEY,JSON.stringify(config));sessionStorage.setItem(GH_SESSION_TOKEN,token);if($('#github-remember').checked)localStorage.setItem(GH_LOCAL_TOKEN,token);else localStorage.removeItem(GH_LOCAL_TOKEN);result.textContent='연결됐습니다. 이제 GitHub에 저장할 수 있어요.';result.className='test-result success';setTimeout(()=>$('#github-dialog').close(),700);setStatus(`GitHub ${config.owner}/${config.repo}에 연결됐어요.`,true)}catch(err){result.textContent=err.status===401?'토큰을 확인해 주세요.':err.status===404?'저장소 이름이나 토큰 권한을 확인해 주세요.':err.message;result.className='test-result error'}
   };
-  function arrayBufferToBase64(buffer){const bytes=new Uint8Array(buffer);let binary='';const chunk=0x8000;for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,i+chunk));return btoa(binary)}
+  function bytesToBase64(bytes){let binary='';const chunk=0x8000;for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,i+chunk));return btoa(binary)}
+  async function gitBlobSha(bytes){
+    const header=new TextEncoder().encode(`blob ${bytes.byteLength}\0`),input=new Uint8Array(header.byteLength+bytes.byteLength);input.set(header);input.set(bytes,header.byteLength);
+    const digest=new Uint8Array(await crypto.subtle.digest('SHA-1',input));return [...digest].map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
   async function saveToGithub(){
     const config=githubConfig(),token=githubToken();if(!token){openGithubSettings();return}
-    const prefix=config.path?config.path+'/':'',repo=`${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}`;
+    const prefix=config.path?config.path+'/':'',repoName=`${config.owner}/${config.repo}`,repo=`${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repo)}`;
     $('#github-save').disabled=true;setStatus('GitHub에 저장할 파일을 준비하는 중…',true);
     try{
       const ref=await githubApi(`/repos/${repo}/git/ref/heads/${encodeURIComponent(config.branch)}`),parent=ref.object.sha,commit=await githubApi(`/repos/${repo}/git/commits/${parent}`),existing=await githubApi(`/repos/${repo}/git/trees/${commit.tree.sha}?recursive=1`);
-      const files=[{path:`${prefix}data/lessons/manifest.js`,text:manifestJs()}];
-      for(const l of lessons){files.push({path:`${prefix}data/lessons/lesson${l.lesson}.js`,text:lessonJs(l)});for(const s of l.sections)for(const i of s.items)if(i.audio){const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);files.push({path:`${prefix}audio/lesson${l.lesson}/${i.audio}`,blob})}}
-      const wantedLessons=new Set(lessons.map(l=>`${prefix}data/lessons/lesson${l.lesson}.js`)),tree=[];
-      for(const entry of existing.tree||[])if(new RegExp(`^${prefix.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}data/lessons/lesson\\d+\\.js$`).test(entry.path)&&!wantedLessons.has(entry.path))tree.push({path:entry.path,mode:'100644',type:'blob',sha:null});
-      let done=0;for(const file of files){setStatus(`GitHub에 업로드 중… ${++done}/${files.length}`,true);const payload=file.text!=null?{content:file.text,encoding:'utf-8'}:{content:arrayBufferToBase64(await file.blob.arrayBuffer()),encoding:'base64'};const created=await githubApi(`/repos/${repo}/git/blobs`,{method:'POST',body:JSON.stringify(payload)});tree.push({path:file.path,mode:'100644',type:'blob',sha:created.sha})}
-      const newTree=await githubApi(`/repos/${repo}/git/trees`,{method:'POST',body:JSON.stringify({base_tree:commit.tree.sha,tree})}),newCommit=await githubApi(`/repos/${repo}/git/commits`,{method:'POST',body:JSON.stringify({message:`레슨 편집기에서 업데이트 (${new Date().toLocaleString('ko-KR')})`,tree:newTree.sha,parents:[parent]})});
-      await githubApi(`/repos/${repo}/git/refs/heads/${encodeURIComponent(config.branch)}`,{method:'PATCH',body:JSON.stringify({sha:newCommit.sha,force:false})});dirty=false;setStatus('GitHub 저장 완료 — 페이지가 곧 자동으로 갱신됩니다.',true);toast('GitHub에 저장했습니다')
+      const existingByPath=new Map((existing.tree||[]).filter(e=>e.type==='blob').map(e=>[e.path,e.sha])),files=[{path:`${prefix}data/lessons/manifest.js`,text:manifestJs()}];
+      for(const l of lessons){
+        files.push({path:`${prefix}data/lessons/lesson${l.lesson}.js`,text:lessonJs(l)});
+        for(const s of l.sections)for(const i of s.items)if(i.audio){
+          const path=`${prefix}audio/lesson${l.lesson}/${i.audio}`;
+          if(existingByPath.has(path)&&!i.blobKey&&!sourceZip&&!directoryHandle)continue;
+          const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);files.push({path,blob});
+        }
+      }
+      const wantedLessons=new Set(lessons.map(l=>`${prefix}data/lessons/lesson${l.lesson}.js`)),deletions=[];
+      for(const entry of existing.tree||[])if(new RegExp(`^${prefix.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}data/lessons/lesson\\d+\\.js$`).test(entry.path)&&!wantedLessons.has(entry.path))deletions.push({path:entry.path});
+      const additions=[];let done=0;
+      for(const file of files){
+        setStatus(`변경 파일을 확인하는 중… ${++done}/${files.length}`,true);
+        const bytes=file.text!=null?new TextEncoder().encode(file.text):new Uint8Array(await file.blob.arrayBuffer());
+        if(existingByPath.get(file.path)===await gitBlobSha(bytes))continue;
+        additions.push({path:file.path,contents:bytesToBase64(bytes)});
+      }
+      if(!additions.length&&!deletions.length){dirty=false;setStatus('GitHub에 저장할 변경 사항이 없습니다.',true);toast('이미 최신 상태입니다');return}
+      setStatus(`GitHub에 커밋하는 중… (${additions.length+deletions.length}개 파일)`,true);
+      const query=`mutation SaveLessons($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid url } } }`;
+      await githubGraphql(query,{input:{branch:{repositoryNameWithOwner:repoName,branchName:config.branch},expectedHeadOid:parent,message:{headline:`레슨 편집기에서 업데이트 (${new Date().toLocaleString('ko-KR')})`},fileChanges:{additions,deletions}}});
+      dirty=false;audioBlobs.clear();setStatus('GitHub 저장 완료 — 페이지가 곧 자동으로 갱신됩니다.',true);toast('GitHub에 저장했습니다')
     }catch(err){setStatus('GitHub 저장에 실패했어요.',true);if(err.status===401||err.status===403){toast('토큰 권한을 확인해 주세요.');openGithubSettings()}else if(err.status===409||err.status===422)toast('다른 변경이 먼저 저장됐어요. 페이지를 새로 열고 다시 시도해 주세요.');else toast(err.message)}finally{$('#github-save').disabled=false}
   }
   $('#github-save').onclick=saveToGithub;
