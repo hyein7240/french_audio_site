@@ -5,6 +5,7 @@ window.LESSONS.push({
   sections: [
     {
       title: "국가 관련 표현 : 한국 🇰🇷",
+      columns: 2,
       items: [
         { text: "la Corée", audio: "01_la_Coree.mp3" },
         { text: "coréen", audio: "02_coreen.mp3" },
@@ -14,6 +15,7 @@ window.LESSONS.push({
     },
     {
       title: "국가 관련 표현 : 프랑스 🇫🇷",
+      columns: 2,
       items: [
         { text: "la France", audio: "05_la_France.mp3" },
         { text: "français", audio: "06_francais.mp3" },
@@ -23,6 +25,7 @@ window.LESSONS.push({
     },
     {
       title: "국가 관련 표현 : 일본 🇯🇵",
+      columns: 2,
       items: [
         { text: "le Japon", audio: "09_le_Japon.mp3" },
         { text: "japonais", audio: "10_japonais.mp3" },
@@ -32,6 +35,7 @@ window.LESSONS.push({
     },
     {
       title: "국가 관련 표현 : 미국 🇺🇸",
+      columns: 2,
       items: [
         { text: "les États-Unis", audio: "13_les_Etats_Unis.mp3" },
         { text: "américain", audio: "14_americain.mp3" },
@@ -41,14 +45,18 @@ window.LESSONS.push({
     },
     {
       title: "국가 관련 표현 : 벨기에 🇧🇪",
+      columns: 2,
       items: [
         { text: "la Belgique", audio: "17_la_Belgique.mp3" },
         { text: "belge", audio: "18_belge.mp3" },
+        { text: "le français", audio: "08_le_francais_2.mp3" },
         { text: "le néerlandais", audio: "19_le_neerlandais.mp3" },
+        { text: "l'allemand", audio: "23_l_allemand_2.mp3" },
       ],
     },
     {
       title: "국가 관련 표현 : 독일 🇩🇪",
+      columns: 2,
       items: [
         { text: "l’Allemagne", audio: "20_l_Allemagne.mp3" },
         { text: "allemand", audio: "21_allemand.mp3" },
@@ -58,6 +66,7 @@ window.LESSONS.push({
     },
     {
       title: "국가 관련 표현 : 스페인 🇪🇸",
+      columns: 2,
       items: [
         { text: "l’Espagne", audio: "24_l_Espagne.mp3" },
         { text: "espagnol", audio: "25_espagnol.mp3" },
