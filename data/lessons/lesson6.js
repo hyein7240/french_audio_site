@@ -1,8 +1,4 @@
-// ============================================================
-// 6차시 데이터  (음성 파일 위치: audio/lesson6/)
-// text  = 화면에 보이는 프랑스어
-// audio = audio/lesson6/ 폴더 안의 mp3 파일 이름
-// ============================================================
+// 레슨 편집기에서 생성한 파일입니다.
 window.LESSONS.push({
   lesson: 6,
   title: "6차시",
@@ -59,7 +55,7 @@ window.LESSONS.push({
     },
     {
       title: "소유형용사 예시 어휘",
-      columns: 3,   // 3개씩 한 줄 (mon / ma / mes …)
+      columns: 3,
       items: [
         { text: "mon père", audio: "41_mon_pere.mp3" },
         { text: "ma mère", audio: "42_ma_mere.mp3" },
@@ -83,7 +79,7 @@ window.LESSONS.push({
     },
     {
       title: "형용사 예시 문장",
-      columns: 2,   // 데스크탑에서 문장 카드를 한 줄에 2개씩 표시
+      columns: 2,
       items: [
         { text: "Elles sont petites.", audio: "59_elles_sont_petites.mp3" },
         { text: "Ils sont minces.", audio: "60_ils_sont_minces.mp3" },

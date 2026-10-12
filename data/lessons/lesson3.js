@@ -1,4 +1,4 @@
-// 3차시 데이터  (음성 파일 위치: audio/lesson3/)
+// 레슨 편집기에서 생성한 파일입니다.
 window.LESSONS.push({
   lesson: 3,
   title: "3차시",

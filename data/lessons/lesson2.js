@@ -1,10 +1,10 @@
-// 2차시 데이터  (음성 파일 위치: audio/lesson2/)
+// 레슨 편집기에서 생성한 파일입니다.
 window.LESSONS.push({
   lesson: 2,
   title: "2차시",
   sections: [
     {
-      title: "국가·국적·언어",
+      title: "국가 관련 표현 : 한국 🇰🇷",
       items: [
         { text: "la Corée", audio: "01_la_Coree.mp3" },
         { text: "coréen", audio: "02_coreen.mp3" },
