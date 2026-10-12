@@ -4,6 +4,12 @@ window.LESSONS.push({
   title: "1차시",
   sections: [
     {
+      title: "알파벳 (A-Z)",
+      items: [
+
+      ],
+    },
+    {
       title: "음성 기호 (accent)",
       items: [
         { text: "accent aigu (´)", audio: "accent_aigu.mp3" },
