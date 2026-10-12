@@ -4,7 +4,7 @@ window.LESSONS.push({
   title: "2차시",
   sections: [
     {
-      title: "한국 🇰🇷",
+      title: "국가 관련 표현 : 한국 🇰🇷",
       items: [
         { text: "la Corée", audio: "01_la_Coree.mp3" },
         { text: "coréen", audio: "02_coreen.mp3" },
