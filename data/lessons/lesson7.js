@@ -50,6 +50,7 @@ window.LESSONS.push({
     },
     {
       title: "선호를 묻고 답하기",
+      columns: 2,
       items: [
         { text: "Tu aimes le sport ?", audio: "031_tu-aimes-le-sport.mp3" },
         { text: "Est-ce que tu aimes le sport ?", audio: "032_est-ce-que-tu-aimes-le-sport.mp3" },
@@ -67,6 +68,7 @@ window.LESSONS.push({
     },
     {
       title: "프랑스어의 연결어 (et, mais, aussi)",
+      columns: 2,
       items: [
         { text: "J’aime le tennis et la natation.", audio: "043_jaime-le-tennis-et-la-natation.mp3" },
         { text: "J’aime le sport, mais je n’aime pas nager.", audio: "044_jaime-le-sport-mais-je-naime-pas-nager.mp3" },
