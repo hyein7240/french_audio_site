@@ -89,5 +89,16 @@ window.LESSONS.push({
         { text: "dormir", audio: "routines/13_dormir.mp3" },
       ],
     },
+    {
+      title: "~시에",
+      columns: 2,
+      items: [
+        { text: "Le matin, je me lève à six heures quarante.", audio: "14_le_matin_je_me_leve_a_six_heures_quarante.mp3" },
+        { text: "Le soir, je me couche à vingt-deux heures.", audio: "15_le_soir_je_me_couche_a_vingt_deux_heures.mp3" },
+        { text: "Le train part à quatorze heures trente. ", audio: "16_le_train_part_a_quatorze_heures_trente.mp3" },
+        { text: "Je me lève à sept heures. ", audio: "17_je_me_leve_a_sept_heures.mp3" },
+        { text: "On se voit à dix-huit heures ?", audio: "18_on_se_voit_a_dix_huit_heures.mp3" },
+      ],
+    },
   ],
 });
