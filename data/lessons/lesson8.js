@@ -51,10 +51,10 @@ window.LESSONS.push({
       title: "시각을 답하기 : 12시간제 & 24시간제",
       columns: 2,
       items: [
-        { text: "Il est deux heures et demie de l’après-midi.", audio: "16_il_est_deux_heures_et_demie_de_l_apres_midi.mp3", image: "06_il-est-deux-heures-et-demie-de-lapres-midi.png" },
-        { text: "Il est quatorze heures trente.", audio: "18_il_est_quatorze_heures_trente.mp3", image: "08_il-est-quatorze-heures-trente.png" },
-        { text: "Il est sept heures moins le quart du soir.", audio: "17_il_est_sept_heures_moins_le_quart_du_soir_2.mp3", image: "07_il-est-sept-heures-moins-le-quart-du-soir.png" },
-        { text: "Il est dix-huit heures quarante-cinq.", audio: "19_il_est_dix_huit_heures_quarante_cinq.mp3", image: "09_il-est-dix-huit-heures-quarante-cinq.png" },
+        { text: "오후 2시 30분", audio: "16_il_est_deux_heures_et_demie_de_l_apres_midi.mp3", image: "06_il-est-deux-heures-et-demie-de-lapres-midi.png" },
+        { text: "14시 30분", audio: "18_il_est_quatorze_heures_trente.mp3", image: "08_il-est-quatorze-heures-trente.png" },
+        { text: "저녁 6시 45분", audio: "17_il_est_sept_heures_moins_le_quart_du_soir_2.mp3", image: "07_il-est-sept-heures-moins-le-quart-du-soir.png" },
+        { text: "18시 45분", audio: "19_il_est_dix_huit_heures_quarante_cinq.mp3", image: "09_il-est-dix-huit-heures-quarante-cinq.png" },
       ],
     },
     {
