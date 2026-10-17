@@ -16,8 +16,8 @@ window.LESSONS.push({
       title: "시각을 답하기 : 기본",
       columns: 2,
       items: [
-        { text: "01:00", audio: "04_il_est_une_heure.mp3" },
-        { text: "02:00", audio: "05_il_est_deux_heures.mp3" },
+        { text: "01:00", audio: "04_il_est_une_heure.mp3", image: "10_il-est-une-heure.png" },
+        { text: "02:00", audio: "05_il_est_deux_heures.mp3", image: "11_il-est-deux-heures.png" },
       ],
     },
     {
@@ -42,9 +42,9 @@ window.LESSONS.push({
     {
       title: "시각을 답하기 : 아침, 오후, 저녁",
       items: [
-        { text: "du matin", audio: "13_du_matin.mp3" },
-        { text: "de l'après-midi", audio: "14_de_l_apres_midi.mp3" },
-        { text: "du soir", audio: "15_du_soir.mp3" },
+        { text: "du matin", audio: "13_du_matin.mp3", image: "스크린샷 2026-10-17 16.28.20.png" },
+        { text: "de l'après-midi", audio: "14_de_l_apres_midi.mp3", image: "스크린샷 2026-10-17 16.28.28.png" },
+        { text: "du soir", audio: "15_du_soir.mp3", image: "스크린샷 2026-10-17 16.28.35.png" },
       ],
     },
     {
