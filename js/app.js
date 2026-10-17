@@ -58,13 +58,21 @@ function play(btn, src){
 function audioPath(lesson, file){
   return file ? `${lesson.audioDir || `audio/lesson${lesson.lesson}/`}${file}` : null;
 }
+function imagePath(lesson,file){
+  return file ? `images/lesson${lesson.lesson}/${file}`.split('/').map(encodeURIComponent).join('/') : null;
+}
 function makeCard(lesson, item, index){
   const b=document.createElement('button');
   b.type='button'; b.className='card'; b.setAttribute('aria-pressed','false');
   const number=document.createElement('span'); number.className='card-number'; number.textContent=String(index+1).padStart(2,'0');
   const lang=document.createElement('span'); lang.className='txt'; lang.lang='fr'; lang.textContent=item.text;
   const icon=document.createElement('span'); icon.className='icon'; icon.innerHTML=SPEAKER+BARS;
-  b.append(number,lang,icon);
+  const photoSrc=imagePath(lesson,item.image);
+  if(photoSrc){
+    const photo=document.createElement('img');photo.className='card-image';photo.alt=item.text ? `${item.text} 사진` : '단어 사진';photo.loading='lazy';photo.src=photoSrc;
+    photo.addEventListener('error',()=>{photo.remove();b.classList.remove('has-image')},{once:true});
+    b.classList.add('has-image');b.append(number,photo,lang,icon);
+  }else b.append(number,lang,icon);
   const src=audioPath(lesson,item.audio);
   if(!src){ markMissing(b); }
   else b.addEventListener('click',()=>play(b,src));

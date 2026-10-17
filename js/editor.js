@@ -4,13 +4,13 @@
   const $=s=>document.querySelector(s);
   const list=$('#lesson-list'), sectionList=$('#section-list');
   let lessons=[], selected=null, dirty=false, directoryHandle=null, sourceZip=null, sourceRoot='french-audio-site/';
-  const audioBlobs=new Map();
+  const audioBlobs=new Map(),imageBlobs=new Map();
   const uid=()=>crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
   const clone=o=>JSON.parse(JSON.stringify(o));
   const escapeJs=s=>JSON.stringify(String(s)).replace(/</g,'\\u003c');
 
   function normalizeLesson(l){
-    return {id:l.id||uid(),lesson:Number(l.lesson)||1,title:l.title||`${l.lesson||1}차시`,sections:(l.sections||[]).map(s=>({id:s.id||uid(),title:s.title||'새 섹션',columns:Number(s.columns)||0,items:(s.items||[]).map(i=>({id:i.id||uid(),text:i.text||'',audio:i.audio||'',sourcePath:i.sourcePath||((i.audio&&l.lesson)?`audio/lesson${l.lesson}/${i.audio}`:'')}))}))};
+    return {id:l.id||uid(),lesson:Number(l.lesson)||1,title:l.title||`${l.lesson||1}차시`,sections:(l.sections||[]).map(s=>({id:s.id||uid(),title:s.title||'새 섹션',columns:Number(s.columns)||0,items:(s.items||[]).map(i=>({id:i.id||uid(),text:i.text||'',audio:i.audio||'',sourcePath:i.sourcePath||((i.audio&&l.lesson)?`audio/lesson${l.lesson}/${i.audio}`:''),image:i.image||'',imageSourcePath:i.imageSourcePath||((i.image&&l.lesson)?`images/lesson${l.lesson}/${i.image}`:'')}))}))};
   }
   function setStatus(message,connected){ $('#status').textContent=message; $('#connection-dot').classList.toggle('connected',!!connected); }
   let toastTimer; function toast(message){const t=$('#toast');t.textContent=message;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2600)}
@@ -21,6 +21,14 @@
     lesson.sections.forEach(s=>s.items.forEach(i=>{if(i!==item&&i.audio)used.add(i.audio.toLowerCase())}));
     if(!used.has(base.toLowerCase()))return base;
     const dot=base.lastIndexOf('.'), stem=dot>0?base.slice(0,dot):base, ext=dot>0?base.slice(dot):'';
+    let n=2,candidate;do{candidate=`${stem}_${n++}${ext}`}while(used.has(candidate.toLowerCase()));return candidate;
+  }
+
+  function uniqueImageName(lesson,file,item){
+    const base=fileNameSafe(file.name,'image.jpg'),used=new Set();
+    lesson.sections.forEach(s=>s.items.forEach(i=>{if(i!==item&&i.image)used.add(i.image.toLowerCase())}));
+    if(!used.has(base.toLowerCase()))return base;
+    const dot=base.lastIndexOf('.'),stem=dot>0?base.slice(0,dot):base,ext=dot>0?base.slice(dot):'';
     let n=2,candidate;do{candidate=`${stem}_${n++}${ext}`}while(used.has(candidate.toLowerCase()));return candidate;
   }
 
@@ -61,14 +69,35 @@
 
   function renderItem(lesson,section,item,ii){
     const row=document.createElement('div');row.className='item-row';
-    row.innerHTML=`<span class="item-number">${ii+1}</span><input class="item-text" type="text" placeholder="프랑스어 단어나 문장"><div class="audio-control"><button class="mini audio-play" type="button" title="미리 듣기">▶</button><span class="audio-name"></span><label class="audio-pick">음성 선택<input type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg"></label></div><div class="row-tools"><button class="mini item-up" type="button" title="위로">↑</button><button class="mini item-down" type="button" title="아래로">↓</button><button class="mini delete item-delete" type="button" title="삭제">×</button></div>`;
-    const text=row.querySelector('.item-text'),name=row.querySelector('.audio-name');text.value=item.text;name.textContent=item.audio||'음성 없음';name.classList.toggle('missing',!item.audio);
-    text.oninput=e=>{item.text=e.target.value;changed()};
-    row.querySelector('input[type=file]').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const bytes=await file.arrayBuffer(),blob=new Blob([bytes],{type:file.type||'application/octet-stream'}),old=item.blobKey;if(old)audioBlobs.delete(old);item.audio=uniqueAudioName(lesson,file,item);item.blobKey=uid();item.sourcePath='';audioBlobs.set(item.blobKey,blob);changed();render()}catch(err){toast(`음성 파일을 읽지 못했습니다: ${err.message}`)}};
+    row.innerHTML=`<span class="item-number">${ii+1}</span><input class="item-text" type="text" placeholder="프랑스어 단어나 문장"><div class="audio-control"><button class="mini audio-play" type="button" title="미리 듣기">▶</button><span class="audio-name"></span><label class="audio-pick">음성 선택<input type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg"></label></div><div class="image-control"><img class="image-preview" alt="" hidden><span class="image-name"></span><label class="image-pick">사진 선택<input type="file" accept="image/*"></label><button class="mini delete image-remove" type="button" title="사진 제거" hidden>×</button></div><div class="row-tools"><button class="mini item-up" type="button" title="위로">↑</button><button class="mini item-down" type="button" title="아래로">↓</button><button class="mini delete item-delete" type="button" title="삭제">×</button></div>`;
+    const text=row.querySelector('.item-text'),name=row.querySelector('.audio-name');
+    const imageName=row.querySelector('.image-name'),imagePreview=row.querySelector('.image-preview'),imageRemove=row.querySelector('.image-remove');
+    text.value=item.text;name.textContent=item.audio||'음성 없음';name.classList.toggle('missing',!item.audio);
+    function refreshImage(){
+      imageName.textContent=item.image||'사진 없음';imageName.classList.toggle('missing',!item.image);
+      imageRemove.hidden=!item.image;imagePreview.hidden=!item.image;
+      imagePreview.alt=item.image?(item.text?`${item.text} 사진`:'단어 사진'):'';
+      if(!item.image){imagePreview.removeAttribute('src');return}
+      const blob=item.imageBlobKey&&imageBlobs.get(item.imageBlobKey);
+      if(blob){
+        const url=URL.createObjectURL(blob);
+        imagePreview.onload=imagePreview.onerror=()=>URL.revokeObjectURL(url);
+        imagePreview.src=url;
+      }else{
+        imagePreview.onload=imagePreview.onerror=null;
+        imagePreview.src=webAssetPath(item.imageSourcePath||`images/lesson${lesson.lesson}/${item.image}`);
+      }
+    }
+    refreshImage();
+    text.oninput=e=>{item.text=e.target.value;imagePreview.alt=item.image?(item.text?`${item.text} 사진`:'단어 사진'):'';changed()};
+    row.querySelector('.audio-pick input').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const bytes=await file.arrayBuffer(),blob=new Blob([bytes],{type:file.type||'application/octet-stream'}),old=item.blobKey;if(old)audioBlobs.delete(old);item.audio=uniqueAudioName(lesson,file,item);item.blobKey=uid();item.sourcePath='';audioBlobs.set(item.blobKey,blob);changed();render()}catch(err){toast(`음성 파일을 읽지 못했습니다: ${err.message}`)}};
+    row.querySelector('.image-pick input').onchange=async e=>{const file=e.target.files[0];if(!file)return;if(file.type&&!file.type.startsWith('image/')){toast('이미지 파일을 선택해 주세요.');e.target.value='';return}try{const bytes=await file.arrayBuffer(),blob=new Blob([bytes],{type:file.type||'application/octet-stream'}),old=item.imageBlobKey;if(old)imageBlobs.delete(old);item.image=uniqueImageName(lesson,file,item);item.imageBlobKey=uid();item.imageSourcePath='';imageBlobs.set(item.imageBlobKey,blob);changed();render()}catch(err){toast(`사진 파일을 읽지 못했습니다: ${err.message}`)}};
+    imageRemove.onclick=()=>{if(item.imageBlobKey)imageBlobs.delete(item.imageBlobKey);delete item.imageBlobKey;item.image='';item.imageSourcePath='';changed();render()};
     row.querySelector('.audio-play').onclick=async()=>{try{const blob=await audioBlobFor(item,lesson);if(!blob)throw new Error('음성 파일을 찾을 수 없습니다.');const url=URL.createObjectURL(blob),a=new Audio(url);a.onended=()=>URL.revokeObjectURL(url);a.onerror=()=>URL.revokeObjectURL(url);await a.play()}catch(e){toast(e.message)}};
     row.querySelector('.item-up').onclick=()=>move(section.items,ii,-1);row.querySelector('.item-down').onclick=()=>move(section.items,ii,1);
-    row.querySelector('.item-delete').onclick=()=>{if(item.blobKey)audioBlobs.delete(item.blobKey);section.items.splice(ii,1);changed();render()};return row;
+    row.querySelector('.item-delete').onclick=()=>{if(item.blobKey)audioBlobs.delete(item.blobKey);if(item.imageBlobKey)imageBlobs.delete(item.imageBlobKey);section.items.splice(ii,1);changed();render()};return row;
   }
+  function webAssetPath(path){return String(path||'').split('/').map(encodeURIComponent).join('/')}
   function move(arr,index,delta){const to=index+delta;if(to<0||to>=arr.length)return;[arr[index],arr[to]]=[arr[to],arr[index]];changed();render()}
 
   $('#lesson-title').oninput=e=>{const l=current();l.title=e.target.value;changed();renderTabsOnly()};
@@ -81,7 +110,7 @@
   function confirmDelete(message,onConfirm){const d=$('#confirm-dialog');$('#confirm-message').textContent=message;d.showModal();d.onclose=()=>{if(d.returnValue==='confirm')onConfirm()}}
 
   function lessonJs(l){
-    const sections=l.sections.map(s=>`    {\n      title: ${escapeJs(s.title)},${s.columns===2||s.columns===3?`\n      columns: ${s.columns},`:''}\n      items: [\n${s.items.map(i=>`        { text: ${escapeJs(i.text)}, audio: ${i.audio?escapeJs(i.audio):'null'} },`).join('\n')}\n      ],\n    },`).join('\n');
+    const sections=l.sections.map(s=>`    {\n      title: ${escapeJs(s.title)},${s.columns===2||s.columns===3?`\n      columns: ${s.columns},`:''}\n      items: [\n${s.items.map(i=>`        { text: ${escapeJs(i.text)}, audio: ${i.audio?escapeJs(i.audio):'null'}${i.image?`, image: ${escapeJs(i.image)}`:''} },`).join('\n')}\n      ],\n    },`).join('\n');
     return `// 레슨 편집기에서 생성한 파일입니다.\nwindow.LESSONS.push({\n  lesson: ${l.lesson},\n  title: ${escapeJs(l.title)},\n  sections: [\n${sections}\n  ],\n});\n`;
   }
 
@@ -92,7 +121,15 @@
     const path=item.sourcePath||`audio/lesson${lesson.lesson}/${item.audio}`;
     const fromDir=await getFileFromDir(path);if(fromDir)return fromDir;
     if(sourceZip){const f=sourceZip.file(sourceRoot+path)||sourceZip.file(path);if(f)return f.async('blob')}
-    if(location.protocol!=='file:'){const r=await fetch(path);if(r.ok)return r.blob()}
+    if(location.protocol!=='file:'){const r=await fetch(webAssetPath(path));if(r.ok)return r.blob()}
+    return null;
+  }
+  async function imageBlobFor(item,lesson){
+    if(item.imageBlobKey&&imageBlobs.has(item.imageBlobKey))return imageBlobs.get(item.imageBlobKey);
+    const path=item.imageSourcePath||`images/lesson${lesson.lesson}/${item.image}`;
+    const fromDir=await getFileFromDir(path);if(fromDir)return fromDir;
+    if(sourceZip){const f=sourceZip.file(sourceRoot+path)||sourceZip.file(path);if(f)return f.async('blob')}
+    if(location.protocol!=='file:'){const r=await fetch(webAssetPath(path));if(r.ok)return r.blob()}
     return null;
   }
   async function writeFile(dir,path,data){const parts=path.split('/').filter(Boolean),name=parts.pop(),target=await getDir(dir,parts.join('/'),true),handle=await target.getFileHandle(name,{create:true}),w=await handle.createWritable();await w.write(data);await w.close()}
@@ -103,8 +140,25 @@
   };
   $('#save-folder').onclick=async()=>{
     if(!directoryHandle){$('#open-folder').click();return}
-    try{setStatus('파일을 저장하는 중…',true);await writeFile(directoryHandle,'data/lessons/manifest.js',manifestJs());for(const l of lessons){await writeFile(directoryHandle,`data/lessons/lesson${l.lesson}.js`,lessonJs(l));for(const s of l.sections)for(const i of s.items)if(i.audio){const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);const bytes=await blob.arrayBuffer();await writeFile(directoryHandle,`audio/lesson${l.lesson}/${i.audio}`,bytes);i.sourcePath=`audio/lesson${l.lesson}/${i.audio}`;delete i.blobKey}}
-      audioBlobs.clear();dirty=false;setStatus(`“${directoryHandle.name}” 폴더에 저장했어요.`,true);toast('저장 완료')
+    try{
+      setStatus('파일을 저장하는 중…',true);
+      await writeFile(directoryHandle,'data/lessons/manifest.js',manifestJs());
+      for(const l of lessons){
+        await writeFile(directoryHandle,`data/lessons/lesson${l.lesson}.js`,lessonJs(l));
+        for(const s of l.sections)for(const i of s.items){
+          if(i.audio){
+            const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);
+            await writeFile(directoryHandle,`audio/lesson${l.lesson}/${i.audio}`,await blob.arrayBuffer());
+            i.sourcePath=`audio/lesson${l.lesson}/${i.audio}`;delete i.blobKey;
+          }
+          if(i.image){
+            const path=`images/lesson${l.lesson}/${i.image}`,blob=await imageBlobFor(i,l);
+            if(!blob)throw new Error(`“${i.text||i.image}”의 사진 파일을 찾을 수 없습니다.`);
+            await writeFile(directoryHandle,path,await blob.arrayBuffer());i.imageSourcePath=path;delete i.imageBlobKey;
+          }
+        }
+      }
+      audioBlobs.clear();imageBlobs.clear();dirty=false;setStatus(`“${directoryHandle.name}” 폴더에 저장했어요.`,true);toast('저장 완료')
     }catch(e){setStatus('저장 중 문제가 생겼어요.',true);toast(e.message)}
   };
 
@@ -122,14 +176,31 @@
     for await(const [name,entry] of handle.entries()){const path=prefix+name;if(entry.kind==='directory')await addDirectoryToZip(zip,entry,path+'/');else zip.file(path,await (await entry.getFile()).arrayBuffer())}
   }
   $('#export-zip').onclick=async()=>{
-    try{setStatus('완성 ZIP을 만드는 중…',!!directoryHandle);let zip=new JSZip(),root='french-audio-site/';
+    try{
+      setStatus('완성 ZIP을 만드는 중…',!!directoryHandle);
+      let zip=new JSZip(),root='french-audio-site/';
       if(sourceZip){for(const [name,entry] of Object.entries(sourceZip.files))if(!entry.dir)zip.file(name,await entry.async('arraybuffer'));root=sourceRoot||root}
       else if(directoryHandle){await addDirectoryToZip(zip,directoryHandle,root)}
       else throw new Error('먼저 사이트 폴더를 연결하거나, 현재 사이트 ZIP을 불러와 주세요.');
       Object.keys(zip.files).filter(n=>n.startsWith(root+'data/lessons/lesson')&&/\.js$/i.test(n)).forEach(n=>zip.remove(n));
       zip.file(`${root}data/lessons/manifest.js`,manifestJs());
-      for(const l of lessons){zip.file(`${root}data/lessons/lesson${l.lesson}.js`,lessonJs(l));for(const s of l.sections)for(const i of s.items)if(i.audio){const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);zip.file(`${root}audio/lesson${l.lesson}/${i.audio}`,blob)}}
-      const out=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});const a=document.createElement('a');a.href=URL.createObjectURL(out);a.download='french-audio-site-edited.zip';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);dirty=false;setStatus('완성 ZIP을 내려받았어요.',!!directoryHandle);toast('ZIP 내보내기 완료')
+      for(const l of lessons){
+        zip.file(`${root}data/lessons/lesson${l.lesson}.js`,lessonJs(l));
+        for(const s of l.sections)for(const i of s.items){
+          if(i.audio){
+            const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);
+            zip.file(`${root}audio/lesson${l.lesson}/${i.audio}`,blob)
+          }
+          if(i.image){
+            const path=`images/lesson${l.lesson}/${i.image}`,blob=await imageBlobFor(i,l);
+            if(!blob)throw new Error(`“${i.text||i.image}”의 사진 파일을 찾을 수 없습니다.`);
+            zip.file(`${root}${path}`,blob)
+          }
+        }
+      }
+      const out=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}}),a=document.createElement('a');
+      a.href=URL.createObjectURL(out);a.download='french-audio-site-edited.zip';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+      dirty=false;setStatus('완성 ZIP을 내려받았어요.',!!directoryHandle);toast('ZIP 내보내기 완료')
     }catch(e){setStatus('ZIP을 만들지 못했어요.',!!directoryHandle);toast(e.message)}
   };
 
@@ -175,10 +246,18 @@
       const existingByPath=new Map((existing.tree||[]).filter(e=>e.type==='blob').map(e=>[e.path,e.sha])),files=[{path:`${prefix}data/lessons/manifest.js`,text:manifestJs()}];
       for(const l of lessons){
         files.push({path:`${prefix}data/lessons/lesson${l.lesson}.js`,text:lessonJs(l)});
-        for(const s of l.sections)for(const i of s.items)if(i.audio){
-          const path=`${prefix}audio/lesson${l.lesson}/${i.audio}`;
-          if(existingByPath.has(path)&&!i.blobKey&&!sourceZip&&!directoryHandle)continue;
-          const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);files.push({path,blob});
+        for(const s of l.sections)for(const i of s.items){
+          if(i.audio){
+            const path=`${prefix}audio/lesson${l.lesson}/${i.audio}`;
+            if(!(existingByPath.has(path)&&!i.blobKey&&!sourceZip&&!directoryHandle)){
+              const blob=await audioBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.audio}”의 음성 파일을 찾을 수 없습니다.`);files.push({path,blob});
+            }
+          }
+          if(i.image){
+            const path=`${prefix}images/lesson${l.lesson}/${i.image}`;
+            if(existingByPath.has(path)&&!i.imageBlobKey&&!sourceZip&&!directoryHandle)continue;
+            const blob=await imageBlobFor(i,l);if(!blob)throw new Error(`“${i.text||i.image}”의 사진 파일을 찾을 수 없습니다.`);files.push({path,blob});
+          }
         }
       }
       const wantedLessons=new Set(lessons.map(l=>`${prefix}data/lessons/lesson${l.lesson}.js`)),deletions=[];
@@ -194,7 +273,7 @@
       setStatus(`GitHub에 커밋하는 중… (${additions.length+deletions.length}개 파일)`,true);
       const query=`mutation SaveLessons($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid url } } }`;
       await githubGraphql(query,{input:{branch:{repositoryNameWithOwner:repoName,branchName:config.branch},expectedHeadOid:parent,message:{headline:`레슨 편집기에서 업데이트 (${new Date().toLocaleString('ko-KR')})`},fileChanges:{additions,deletions}}});
-      dirty=false;audioBlobs.clear();setStatus('GitHub 저장 완료 — 페이지가 곧 자동으로 갱신됩니다.',true);toast('GitHub에 저장했습니다')
+      dirty=false;for(const l of lessons)for(const s of l.sections)for(const i of s.items)if(i.image)i.imageSourcePath=`images/lesson${l.lesson}/${i.image}`;audioBlobs.clear();setStatus('GitHub 저장 완료 — 페이지가 곧 자동으로 갱신됩니다.',true);toast('GitHub에 저장했습니다')
     }catch(err){setStatus('GitHub 저장에 실패했어요.',true);if(err.status===401||err.status===403){toast('토큰 권한을 확인해 주세요.');openGithubSettings()}else if(err.status===409||err.status===422)toast('다른 변경이 먼저 저장됐어요. 페이지를 새로 열고 다시 시도해 주세요.');else toast(err.message)}finally{$('#github-save').disabled=false}
   }
   $('#github-save').onclick=saveToGithub;
