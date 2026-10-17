@@ -24,11 +24,11 @@ window.LESSONS.push({
       title: "시각을 답하기 : 10, 15, 30, 45, 50분 말하기",
       columns: 2,
       items: [
-        { text: "Il est sept heures dix.", audio: "06_il_est_sept_heures_dix.mp3" },
-        { text: "Il est sept heures et quart.", audio: "07_il_est_sept_heures_et_quart.mp3" },
-        { text: "Il est sept heures et demie.", audio: "08_il_est_sept_heures_et_demie.mp3" },
-        { text: "Il est huit heures moins le quart.", audio: "09_il_est_huit_heures_moins_le_quart.mp3" },
-        { text: "Il est neuf heures moins dix.", audio: "10_il_est_neuf_heures_moins_dix.mp3" },
+        { text: "07:10", audio: "06_il_est_sept_heures_dix.mp3", image: "01_il-est-sept-heures-dix.png" },
+        { text: "07:15", audio: "07_il_est_sept_heures_et_quart.mp3", image: "02_il-est-sept-heures-et-quart.png" },
+        { text: "07:30", audio: "08_il_est_sept_heures_et_demie.mp3", image: "03_il-est-sept-heures-et-demie.png" },
+        { text: "07:45", audio: "09_il_est_huit_heures_moins_le_quart.mp3", image: "04_il-est-huit-heures-moins-le-quart.png" },
+        { text: "09:50", audio: "10_il_est_neuf_heures_moins_dix.mp3", image: "05_il-est-neuf-heures-moins-dix.png" },
       ],
     },
     {
