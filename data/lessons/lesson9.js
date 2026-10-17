@@ -101,86 +101,38 @@ window.LESSONS.push({
       ],
     },
     {
-      "title": "하루 일과 순서대로 말하기",
-      "columns": 2,
-      "items": [
-        {
-          "text": "D’abord, je me lève à sept heures.",
-          "audio": "routine-rendezvous/01_d_abord_je_me_leve_a_sept_heures.mp3"
-        },
-        {
-          "text": "Puis, je prends le petit-déjeuner.",
-          "audio": "routine-rendezvous/02_puis_je_prends_le_petit_dejeuner.mp3"
-        },
-        {
-          "text": "Ensuite, je travaille.",
-          "audio": "routine-rendezvous/03_ensuite_je_travaille.mp3"
-        },
-        {
-          "text": "Je déjeune à midi.",
-          "audio": "routine-rendezvous/04_je_dejeune_a_midi.mp3"
-        },
-        {
-          "text": "Après, je rentre à dix-neuf heures et je me couche à minuit.",
-          "audio": "routine-rendezvous/05_apres_je_rentre_a_dix_neuf_heures_et_je_me_couche_a_minuit.mp3"
-        }
-      ]
+      title: "하루 일과 순서대로 말하기",
+      columns: 2,
+      items: [
+        { text: "D’abord, je me lève à sept heures.", audio: "routine-rendezvous/01_d_abord_je_me_leve_a_sept_heures.mp3" },
+        { text: "Puis, je prends le petit-déjeuner.", audio: "routine-rendezvous/02_puis_je_prends_le_petit_dejeuner.mp3" },
+        { text: "Ensuite, je travaille.", audio: "routine-rendezvous/03_ensuite_je_travaille.mp3" },
+        { text: "Je déjeune à midi.", audio: "routine-rendezvous/04_je_dejeune_a_midi.mp3" },
+        { text: "Après, je rentre à dix-neuf heures et je me couche à minuit.", audio: "routine-rendezvous/05_apres_je_rentre_a_dix_neuf_heures_et_je_me_couche_a_minuit.mp3" },
+      ],
     },
     {
-      "title": "안부와 컨디션",
-      "columns": 2,
-      "items": [
-        {
-          "text": "Ça va bien.",
-          "audio": "routine-rendezvous/06_ca_va_bien.mp3"
-        },
-        {
-          "text": "Ça va.",
-          "audio": "routine-rendezvous/07_ca_va.mp3"
-        },
-        {
-          "text": "Ça va mal.",
-          "audio": "routine-rendezvous/08_ca_va_mal.mp3"
-        },
-        {
-          "text": "Je suis fatigué(e).",
-          "audio": "routine-rendezvous/09_je_suis_fatigue_e.mp3"
-        },
-        {
-          "text": "Je suis occupé(e).",
-          "audio": "routine-rendezvous/10_je_suis_occupe_e.mp3"
-        },
-        {
-          "text": "Je suis malade.",
-          "audio": "routine-rendezvous/11_je_suis_malade.mp3"
-        }
-      ]
+      title: "안부와 컨디션",
+      columns: 2,
+      items: [
+        { text: "Ça va bien.", audio: "routine-rendezvous/06_ca_va_bien.mp3" },
+        { text: "Ça va.", audio: "routine-rendezvous/07_ca_va.mp3" },
+        { text: "Ça va mal.", audio: "routine-rendezvous/08_ca_va_mal.mp3" },
+        { text: "Je suis fatigué(e).", audio: "routine-rendezvous/09_je_suis_fatigue_e.mp3" },
+        { text: "Je suis occupé(e).", audio: "routine-rendezvous/10_je_suis_occupe_e.mp3" },
+        { text: "Je suis malade.", audio: "routine-rendezvous/11_je_suis_malade.mp3" },
+      ],
     },
     {
-      "title": "약속 정하기",
-      "columns": 2,
-      "items": [
-        {
-          "text": "Tu es libre à quelle heure ?",
-          "audio": "routine-rendezvous/12_tu_es_libre_a_quelle_heure.mp3"
-        },
-        {
-          "text": "Je suis libre à 18 heures.",
-          "audio": "routine-rendezvous/13_je_suis_libre_a_18_heures.mp3"
-        },
-        {
-          "text": "On se voit à 18 heures ?",
-          "audio": "routine-rendezvous/14_on_se_voit_a_18_heures.mp3"
-        },
-        {
-          "text": "D’accord !",
-          "audio": "routine-rendezvous/15_d_accord.mp3"
-        },
-        {
-          "text": "Désolé, je suis occupé.",
-          "audio": "routine-rendezvous/16_desole_je_suis_occupe.mp3"
-        }
-      ]
+      title: "약속 정하기",
+      columns: 2,
+      items: [
+        { text: "Tu es libre à quelle heure ?", audio: "routine-rendezvous/12_tu_es_libre_a_quelle_heure.mp3" },
+        { text: "Je suis libre à 18 heures.", audio: "routine-rendezvous/13_je_suis_libre_a_18_heures.mp3" },
+        { text: "On se voit à 18 heures ?", audio: "routine-rendezvous/14_on_se_voit_a_18_heures.mp3" },
+        { text: "D’accord !", audio: "routine-rendezvous/15_d_accord.mp3" },
+        { text: "Désolé, je suis occupé.", audio: "routine-rendezvous/16_desole_je_suis_occupe.mp3" },
+      ],
     },
     {
       title: "날을 나타내는 단어들",
@@ -208,6 +160,7 @@ window.LESSONS.push({
     },
     {
       title: "요일 묻기",
+      columns: 2,
       items: [
         { text: "C’est quel jour ?", audio: "calendar-vocabulary/15_c_est_quel_jour.mp3" },
         { text: "Quel jour est-ce aujourd’hui ?", audio: "calendar-vocabulary/16_quel_jour_est_ce_aujourd_hui.mp3" },
@@ -233,6 +186,7 @@ window.LESSONS.push({
     },
     {
       title: "날짜 묻고 답하기",
+      columns: 2,
       items: [
         { text: "Quelle est la date aujourd'hui ?", audio: "calendar-expressions/01_quelle_est_la_date_aujourd_hui.mp3" },
         { text: "Nous sommes le 18 octobre.", audio: "calendar-expressions/02_nous_sommes_le_18_octobre.mp3" },
@@ -253,6 +207,7 @@ window.LESSONS.push({
     },
     {
       title: "빈도 부사",
+      columns: 2,
       items: [
         { text: "toujours", audio: "calendar-expressions/11_toujours.mp3" },
         { text: "souvent", audio: "calendar-expressions/12_souvent.mp3" },
@@ -265,6 +220,7 @@ window.LESSONS.push({
     },
     {
       title: "날짜 말하기",
+      columns: 2,
       items: [
         { text: "C’est le premier janvier.", audio: "calendar-expressions/18_c_est_le_premier_janvier.mp3" },
         { text: "C’est le quatorze juillet.", audio: "calendar-expressions/19_c_est_le_quatorze_juillet.mp3" },
