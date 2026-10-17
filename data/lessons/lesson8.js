@@ -16,8 +16,8 @@ window.LESSONS.push({
       title: "시각을 답하기 : 기본",
       columns: 2,
       items: [
-        { text: "Il est une heure. ", audio: "04_il_est_une_heure.mp3" },
-        { text: "Il est deux heures.", audio: "05_il_est_deux_heures.mp3" },
+        { text: "01:00", audio: "04_il_est_une_heure.mp3" },
+        { text: "02:00", audio: "05_il_est_deux_heures.mp3" },
       ],
     },
     {
