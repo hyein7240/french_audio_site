@@ -71,5 +71,82 @@ window.LESSONS.push({
         { text: "elles se couchent", audio: "42_elles_se_couchent.mp3" },
       ],
     },
+    {
+      "title": "Activités et routines",
+      "items": [
+        {
+          "text": "se réveiller",
+          "audio": "routines/01_se_reveiller.mp3"
+        },
+        {
+          "text": "se lever",
+          "audio": "routines/02_se_lever.mp3"
+        },
+        {
+          "text": "se laver",
+          "audio": "routines/03_se_laver.mp3"
+        },
+        {
+          "text": "prendre le petit-déjeuner",
+          "audio": "routines/04_prendre_le_petit_dejeuner.mp3"
+        },
+        {
+          "text": "travailler",
+          "audio": "routines/05_travailler.mp3"
+        },
+        {
+          "text": "déjeuner",
+          "audio": "routines/06_dejeuner.mp3"
+        },
+        {
+          "text": "se laver",
+          "audio": "routines/07_se_laver.mp3"
+        },
+        {
+          "text": "déjeuner",
+          "audio": "routines/08_dejeuner.mp3"
+        },
+        {
+          "text": "rentrer",
+          "audio": "routines/09_rentrer.mp3"
+        },
+        {
+          "text": "se reposer",
+          "audio": "routines/10_se_reposer.mp3"
+        },
+        {
+          "text": "dîner",
+          "audio": "routines/11_diner.mp3"
+        },
+        {
+          "text": "se coucher",
+          "audio": "routines/12_se_coucher.mp3"
+        },
+        {
+          "text": "dormir",
+          "audio": "routines/13_dormir.mp3"
+        },
+        {
+          "text": "Le matin, je me lève à six heures quarante.",
+          "audio": "routines/14_le_matin_je_me_leve_a_six_heures_quarante.mp3"
+        },
+        {
+          "text": "Le soir, je me couche à vingt-deux heures.",
+          "audio": "routines/15_le_soir_je_me_couche_a_vingt_deux_heures.mp3"
+        },
+        {
+          "text": "Le train part à quatorze heures trente.",
+          "audio": "routines/16_le_train_part_a_quatorze_heures_trente.mp3"
+        },
+        {
+          "text": "Je me lève à sept heures.",
+          "audio": "routines/17_je_me_leve_a_sept_heures.mp3"
+        },
+        {
+          "text": "On se voit à dix-huit heures ?",
+          "audio": "routines/18_on_se_voit_a_dix_huit_heures.mp3"
+        }
+      ]
+    },
   ],
 });
