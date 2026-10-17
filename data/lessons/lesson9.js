@@ -182,6 +182,95 @@ window.LESSONS.push({
         }
       ]
     },
-
+    {
+      title: "날을 나타내는 단어들",
+      items: [
+        { text: "jour", audio: "calendar-vocabulary/01_jour.mp3" },
+        { text: "mois", audio: "calendar-vocabulary/02_mois.mp3" },
+        { text: "semaine", audio: "calendar-vocabulary/03_semaine.mp3" },
+        { text: "an", audio: "calendar-vocabulary/04_an.mp3" },
+        { text: "hier", audio: "calendar-vocabulary/05_hier.mp3" },
+        { text: "aujourd’hui", audio: "calendar-vocabulary/06_aujourd_hui.mp3" },
+        { text: "demain", audio: "calendar-vocabulary/07_demain.mp3" },
+      ],
+    },
+    {
+      title: "요일",
+      items: [
+        { text: "lundi", audio: "calendar-vocabulary/08_lundi.mp3" },
+        { text: "mardi", audio: "calendar-vocabulary/09_mardi.mp3" },
+        { text: "mercredi", audio: "calendar-vocabulary/10_mercredi.mp3" },
+        { text: "jeudi", audio: "calendar-vocabulary/11_jeudi.mp3" },
+        { text: "vendredi", audio: "calendar-vocabulary/12_vendredi.mp3" },
+        { text: "samedi", audio: "calendar-vocabulary/13_samedi.mp3" },
+        { text: "dimanche", audio: "calendar-vocabulary/14_dimanche.mp3" },
+      ],
+    },
+    {
+      title: "요일 묻기",
+      items: [
+        { text: "C’est quel jour ?", audio: "calendar-vocabulary/15_c_est_quel_jour.mp3" },
+        { text: "Quel jour est-ce aujourd’hui ?", audio: "calendar-vocabulary/16_quel_jour_est_ce_aujourd_hui.mp3" },
+        { text: "Quel jour sommes-nous ?", audio: "calendar-vocabulary/17_quel_jour_sommes_nous.mp3" },
+      ],
+    },
+    {
+      title: "열두 달",
+      items: [
+        { text: "janvier", audio: "calendar-vocabulary/18_janvier.mp3" },
+        { text: "février", audio: "calendar-vocabulary/19_fevrier.mp3" },
+        { text: "mars", audio: "calendar-vocabulary/20_mars.mp3" },
+        { text: "avril", audio: "calendar-vocabulary/21_avril.mp3" },
+        { text: "mai", audio: "calendar-vocabulary/22_mai.mp3" },
+        { text: "juin", audio: "calendar-vocabulary/23_juin.mp3" },
+        { text: "juillet", audio: "calendar-vocabulary/24_juillet.mp3" },
+        { text: "août", audio: "calendar-vocabulary/25_aout.mp3" },
+        { text: "septembre", audio: "calendar-vocabulary/26_septembre.mp3" },
+        { text: "octobre", audio: "calendar-vocabulary/27_octobre.mp3" },
+        { text: "novembre", audio: "calendar-vocabulary/28_novembre.mp3" },
+        { text: "décembre", audio: "calendar-vocabulary/29_decembre.mp3" },
+      ],
+    },
+    {
+      title: "날짜 묻고 답하기",
+      items: [
+        { text: "Quelle est la date aujourd'hui ?", audio: "calendar-expressions/01_quelle_est_la_date_aujourd_hui.mp3" },
+        { text: "Nous sommes le 18 octobre.", audio: "calendar-expressions/02_nous_sommes_le_18_octobre.mp3" },
+      ],
+    },
+    {
+      title: "사계절",
+      items: [
+        { text: "le printemps", audio: "calendar-expressions/03_le_printemps.mp3" },
+        { text: "au printemps", audio: "calendar-expressions/04_au_printemps.mp3" },
+        { text: "l’été", audio: "calendar-expressions/05_l_ete.mp3" },
+        { text: "en été", audio: "calendar-expressions/06_en_ete.mp3" },
+        { text: "l’automne", audio: "calendar-expressions/07_l_automne.mp3" },
+        { text: "en automne", audio: "calendar-expressions/08_en_automne.mp3" },
+        { text: "l’hiver", audio: "calendar-expressions/09_l_hiver.mp3" },
+        { text: "en hiver", audio: "calendar-expressions/10_en_hiver.mp3" },
+      ],
+    },
+    {
+      title: "빈도 부사",
+      items: [
+        { text: "toujours", audio: "calendar-expressions/11_toujours.mp3" },
+        { text: "souvent", audio: "calendar-expressions/12_souvent.mp3" },
+        { text: "parfois", audio: "calendar-expressions/13_parfois.mp3" },
+        { text: "jamais", audio: "calendar-expressions/14_jamais.mp3" },
+        { text: "Je fais souvent du sport.", audio: "calendar-expressions/15_je_fais_souvent_du_sport.mp3" },
+        { text: "Elle prend toujours le métro.", audio: "calendar-expressions/16_elle_prend_toujours_le_metro.mp3" },
+        { text: "Je ne travaille jamais le dimanche.", audio: "calendar-expressions/17_je_ne_travaille_jamais_le_dimanche.mp3" },
+      ],
+    },
+    {
+      title: "날짜 말하기",
+      items: [
+        { text: "C’est le premier janvier.", audio: "calendar-expressions/18_c_est_le_premier_janvier.mp3" },
+        { text: "C’est le quatorze juillet.", audio: "calendar-expressions/19_c_est_le_quatorze_juillet.mp3" },
+        { text: "C’est le trente et un octobre.", audio: "calendar-expressions/20_c_est_le_trente_et_un_octobre.mp3" },
+        { text: "C’est le vingt-cinq décembre.", audio: "calendar-expressions/21_c_est_le_vingt_cinq_decembre.mp3" },
+      ],
+    },
   ],
 });
