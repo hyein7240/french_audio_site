@@ -100,5 +100,88 @@ window.LESSONS.push({
         { text: "On se voit à dix-huit heures ?", audio: "18_on_se_voit_a_dix_huit_heures.mp3" },
       ],
     },
+    {
+      "title": "하루 일과 순서대로 말하기",
+      "columns": 2,
+      "items": [
+        {
+          "text": "D’abord, je me lève à sept heures.",
+          "audio": "routine-rendezvous/01_d_abord_je_me_leve_a_sept_heures.mp3"
+        },
+        {
+          "text": "Puis, je prends le petit-déjeuner.",
+          "audio": "routine-rendezvous/02_puis_je_prends_le_petit_dejeuner.mp3"
+        },
+        {
+          "text": "Ensuite, je travaille.",
+          "audio": "routine-rendezvous/03_ensuite_je_travaille.mp3"
+        },
+        {
+          "text": "Je déjeune à midi.",
+          "audio": "routine-rendezvous/04_je_dejeune_a_midi.mp3"
+        },
+        {
+          "text": "Après, je rentre à dix-neuf heures et je me couche à minuit.",
+          "audio": "routine-rendezvous/05_apres_je_rentre_a_dix_neuf_heures_et_je_me_couche_a_minuit.mp3"
+        }
+      ]
+    },
+    {
+      "title": "안부와 컨디션",
+      "columns": 2,
+      "items": [
+        {
+          "text": "Ça va bien.",
+          "audio": "routine-rendezvous/06_ca_va_bien.mp3"
+        },
+        {
+          "text": "Ça va.",
+          "audio": "routine-rendezvous/07_ca_va.mp3"
+        },
+        {
+          "text": "Ça va mal.",
+          "audio": "routine-rendezvous/08_ca_va_mal.mp3"
+        },
+        {
+          "text": "Je suis fatigué(e).",
+          "audio": "routine-rendezvous/09_je_suis_fatigue_e.mp3"
+        },
+        {
+          "text": "Je suis occupé(e).",
+          "audio": "routine-rendezvous/10_je_suis_occupe_e.mp3"
+        },
+        {
+          "text": "Je suis malade.",
+          "audio": "routine-rendezvous/11_je_suis_malade.mp3"
+        }
+      ]
+    },
+    {
+      "title": "약속 정하기",
+      "columns": 2,
+      "items": [
+        {
+          "text": "Tu es libre à quelle heure ?",
+          "audio": "routine-rendezvous/12_tu_es_libre_a_quelle_heure.mp3"
+        },
+        {
+          "text": "Je suis libre à 18 heures.",
+          "audio": "routine-rendezvous/13_je_suis_libre_a_18_heures.mp3"
+        },
+        {
+          "text": "On se voit à 18 heures ?",
+          "audio": "routine-rendezvous/14_on_se_voit_a_18_heures.mp3"
+        },
+        {
+          "text": "D’accord !",
+          "audio": "routine-rendezvous/15_d_accord.mp3"
+        },
+        {
+          "text": "Désolé, je suis occupé.",
+          "audio": "routine-rendezvous/16_desole_je_suis_occupe.mp3"
+        }
+      ]
+    },
+
   ],
 });
