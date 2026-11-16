@@ -5,6 +5,7 @@
    ============================================================ */
 window.LESSONS = [];
 const MAX_LESSONS = 100;               // 이 번호까지 찾아봅니다
+const DATA_VERSION = Date.now().toString(36);
 const $tabs = document.getElementById('tabs');
 const $content = document.getElementById('content');
 const $current = document.getElementById('current');
@@ -16,7 +17,7 @@ const BARS = '<span class="bars"><i></i><i></i><i></i></span>';
 function loadScript(src){
   return new Promise(res=>{
     const s=document.createElement('script');
-    s.src=src; s.onload=()=>res(true); s.onerror=()=>{s.remove();res(false)};
+    s.src=`${src}?v=${DATA_VERSION}`; s.onload=()=>res(true); s.onerror=()=>{s.remove();res(false)};
     document.head.appendChild(s);
   });
 }

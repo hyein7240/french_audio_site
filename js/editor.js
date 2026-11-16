@@ -4,6 +4,7 @@
   const $=s=>document.querySelector(s);
   const list=$('#lesson-list'), sectionList=$('#section-list');
   let lessons=[], selected=null, dirty=false, directoryHandle=null, sourceZip=null, sourceRoot='french-audio-site/';
+  let loadedLessonNumbers=new Set();
   const audioBlobs=new Map(),imageBlobs=new Map();
   const uid=()=>crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
   const clone=o=>JSON.parse(JSON.stringify(o));
@@ -34,13 +35,14 @@
 
   async function loadBundledLessons(){
     window.LESSONS=[];
-    await new Promise(resolve=>{const s=document.createElement('script');s.src='data/lessons/manifest.js';s.onload=s.onerror=()=>resolve();document.head.appendChild(s)});
+    const version=Date.now().toString(36);
+    await new Promise(resolve=>{const s=document.createElement('script');s.src=`data/lessons/manifest.js?v=${version}`;s.onload=s.onerror=()=>resolve();document.head.appendChild(s)});
     const numbers=Array.isArray(window.LESSON_FILES)?window.LESSON_FILES:Array.from({length:100},(_,i)=>i+1);
     for(const n of numbers){
-      const ok=await new Promise(resolve=>{const s=document.createElement('script');s.src=`data/lessons/lesson${n}.js`;s.onload=()=>resolve(true);s.onerror=()=>{s.remove();resolve(false)};document.head.appendChild(s)});
+      const ok=await new Promise(resolve=>{const s=document.createElement('script');s.src=`data/lessons/lesson${n}.js?v=${version}`;s.onload=()=>resolve(true);s.onerror=()=>{s.remove();resolve(false)};document.head.appendChild(s)});
       if(!ok&&!Array.isArray(window.LESSON_FILES))break;
     }
-    lessons=(window.LESSONS||[]).map(normalizeLesson).sort((a,b)=>a.lesson-b.lesson); selected=lessons[0]?.id||null; render();
+    lessons=(window.LESSONS||[]).map(normalizeLesson).sort((a,b)=>a.lesson-b.lesson);loadedLessonNumbers=new Set(lessons.map(l=>l.lesson));selected=lessons[0]?.id||null;render();
   }
 
   function render(){
@@ -243,7 +245,19 @@
     $('#github-save').disabled=true;setStatus('GitHub에 저장할 파일을 준비하는 중…',true);
     try{
       const ref=await githubApi(`/repos/${repo}/git/ref/heads/${encodeURIComponent(config.branch)}`),parent=ref.object.sha,commit=await githubApi(`/repos/${repo}/git/commits/${parent}`),existing=await githubApi(`/repos/${repo}/git/trees/${commit.tree.sha}?recursive=1`);
-      const existingByPath=new Map((existing.tree||[]).filter(e=>e.type==='blob').map(e=>[e.path,e.sha])),files=[{path:`${prefix}data/lessons/manifest.js`,text:manifestJs()}];
+      if(existing.truncated)throw new Error('레슨 목록을 모두 읽지 못해 저장하지 않았습니다. 잠시 후 다시 시도해 주세요.');
+      const wantedLessonNumbers=new Set(lessons.map(l=>l.lesson)),retainedLessonNumbers=new Set(wantedLessonNumbers),deletions=[];
+      const lessonPathPrefix=`${prefix}data/lessons/`;
+      // 편집기를 연 뒤 추가되었거나 불러오지 못한 레슨은 삭제하지 않습니다.
+      for(const entry of existing.tree||[]){
+        if(entry.type!=='blob'||!entry.path.startsWith(lessonPathPrefix))continue;
+        const match=entry.path.slice(lessonPathPrefix.length).match(/^lesson(\d+)\.js$/);
+        if(!match)continue;
+        const number=Number(match[1]);
+        if(loadedLessonNumbers.has(number)&&!wantedLessonNumbers.has(number))deletions.push({path:entry.path});
+        else retainedLessonNumbers.add(number);
+      }
+      const existingByPath=new Map((existing.tree||[]).filter(e=>e.type==='blob').map(e=>[e.path,e.sha])),files=[{path:`${prefix}data/lessons/manifest.js`,text:manifestJs([...retainedLessonNumbers])}];
       for(const l of lessons){
         files.push({path:`${prefix}data/lessons/lesson${l.lesson}.js`,text:lessonJs(l)});
         for(const s of l.sections)for(const i of s.items){
@@ -260,8 +274,6 @@
           }
         }
       }
-      const wantedLessons=new Set(lessons.map(l=>`${prefix}data/lessons/lesson${l.lesson}.js`)),deletions=[];
-      for(const entry of existing.tree||[])if(new RegExp(`^${prefix.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}data/lessons/lesson\\d+\\.js$`).test(entry.path)&&!wantedLessons.has(entry.path))deletions.push({path:entry.path});
       const additions=[];let done=0;
       for(const file of files){
         setStatus(`변경 파일을 확인하는 중… ${++done}/${files.length}`,true);
@@ -269,16 +281,16 @@
         if(existingByPath.get(file.path)===await gitBlobSha(bytes))continue;
         additions.push({path:file.path,contents:bytesToBase64(bytes)});
       }
-      if(!additions.length&&!deletions.length){dirty=false;setStatus('GitHub에 저장할 변경 사항이 없습니다.',true);toast('이미 최신 상태입니다');return}
+      if(!additions.length&&!deletions.length){loadedLessonNumbers=new Set(wantedLessonNumbers);dirty=false;setStatus('GitHub에 저장할 변경 사항이 없습니다.',true);toast('이미 최신 상태입니다');return}
       setStatus(`GitHub에 커밋하는 중… (${additions.length+deletions.length}개 파일)`,true);
       const query=`mutation SaveLessons($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid url } } }`;
       await githubGraphql(query,{input:{branch:{repositoryNameWithOwner:repoName,branchName:config.branch},expectedHeadOid:parent,message:{headline:`레슨 편집기에서 업데이트 (${new Date().toLocaleString('ko-KR')})`},fileChanges:{additions,deletions}}});
-      dirty=false;for(const l of lessons)for(const s of l.sections)for(const i of s.items)if(i.image)i.imageSourcePath=`images/lesson${l.lesson}/${i.image}`;audioBlobs.clear();setStatus('GitHub 저장 완료 — 페이지가 곧 자동으로 갱신됩니다.',true);toast('GitHub에 저장했습니다')
+      loadedLessonNumbers=new Set(wantedLessonNumbers);dirty=false;for(const l of lessons)for(const s of l.sections)for(const i of s.items)if(i.image)i.imageSourcePath=`images/lesson${l.lesson}/${i.image}`;audioBlobs.clear();setStatus('GitHub 저장 완료 — 페이지가 곧 자동으로 갱신됩니다.',true);toast('GitHub에 저장했습니다')
     }catch(err){setStatus('GitHub 저장에 실패했어요.',true);if(err.status===401||err.status===403){toast('토큰 권한을 확인해 주세요.');openGithubSettings()}else if(err.status===409||err.status===422)toast('다른 변경이 먼저 저장됐어요. 페이지를 새로 열고 다시 시도해 주세요.');else toast(err.message)}finally{$('#github-save').disabled=false}
   }
   $('#github-save').onclick=saveToGithub;
   if(githubToken()){const c=githubConfig();setStatus(`GitHub ${c.owner}/${c.repo}에 연결돼 있어요.`,true)}
   addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
-  function manifestJs(){return `// 레슨 편집기에서 자동 관리합니다.\nwindow.LESSON_FILES = [${lessons.map(l=>l.lesson).sort((a,b)=>a-b).join(', ')}];\n`}
+  function manifestJs(numbers=lessons.map(l=>l.lesson)){return `// 레슨 편집기에서 자동 관리합니다.\nwindow.LESSON_FILES = [${numbers.sort((a,b)=>a-b).join(', ')}];\n`}
   loadBundledLessons();
 })();
