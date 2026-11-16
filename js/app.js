@@ -30,7 +30,14 @@ async function loadAllLessons(){
     const ok = await loadScript(`data/lessons/lesson${n}.js`);
     if(!ok && !Array.isArray(window.LESSON_FILES)) break;
   }
-  window.LESSONS.sort((a,b)=>a.lesson-b.lesson);
+  // 기존 차시 ID와 링크를 유지하면서 단어장은 책 번호순으로 표시합니다.
+  window.LESSONS.sort((a,b)=>{
+    const aBook=/^단어장\s*(\d+)$/.exec(a.title||'');
+    const bBook=/^단어장\s*(\d+)$/.exec(b.title||'');
+    if(aBook && bBook) return Number(aBook[1])-Number(bBook[1]) || a.lesson-b.lesson;
+    if(aBook || bBook) return aBook ? 1 : -1;
+    return a.lesson-b.lesson;
+  });
 }
 
 /* ---------- 오디오 (한 번에 하나만 재생) ---------- */
@@ -118,3 +125,4 @@ function select(n){
   const latest=[...window.LESSONS].reverse().find(hasContent) || window.LESSONS[0];
   select(window.LESSONS.some(l=>l.lesson===fromHash)?fromHash:latest.lesson);
 })();
+
