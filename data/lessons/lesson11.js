@@ -36,12 +36,12 @@ window.LESSONS.push({
     {
       title: "듣기3",
       items: [
-        { text: "une présentation", audio: null },
-        { text: "un produit", audio: null },
-        { text: "un contrat", audio: null },
-        { text: "un salaire annuel", audio: null },
-        { text: "une condition de travail", audio: null },
-        { text: "une marchandise", audio: null },
+        { text: "une présentation", audio: "단어장3_듣기3_une présentation.mp3" },
+        { text: "un produit", audio: "단어장3_듣기3_un produit.mp3" },
+        { text: "un contrat", audio: "단어장3_듣기3_un contrat.mp3" },
+        { text: "un salaire annuel", audio: "단어장3_듣기3_un salaire annuel.mp3" },
+        { text: "une condition de travail", audio: "단어장3_듣기3_une condition de travail.mp3" },
+        { text: "une marchandise", audio: "단어장3_듣기3_une marchandise.mp3" },
       ],
     },
     {
